@@ -18,13 +18,19 @@ Just clone Parmesan into the root of whatever portion of your website you want t
 
 ##Configuration Instructions
 The default settings file is `.parm/default.parm-settings`. If you need to override any of these settings, it is reccomended that you create the file `.parm/user.parm-settings`, and add the options you would like to override.
-####Options
+####Default Options
+These are the options in `default.parm-settings`, and what they mean.  
 | Option | Values | Description |
 | --- | --- | --- |
 | parser | multimarkdown, markdown, pandoc, etc. | The parser you want to use. Can be anything. (default: multimarkdown) |
-| parse_syntax | `$file > $out` | The syntax for your chosen parser. $file and $out are required. Will be called as `<parser> <parse_syntax>` |
+| parse_syntax | Example: `$file > $out` | The syntax for your chosen parser. `$file` and `$out`, the input file and the output file respectively, are required. Will be called as `<parser> <parse_syntax>` (default: multimarkdown syntax) |
 | generate_txt_version | true, false | If true, will generate .txt file versions of your markdown that can be viewed on the web. (default: false)|
 | include_html_in_txt | true, false | If true and `generate_txt_version` is true, the html template code will be included as well as the markdown text when creating the optional .txt files. (default: false) |
 
+####Additional Options
+These options can be added to `user.parm-settings`, but are not present in `default.parm-settings`.  
+| Option | Values | Description |
+| --- | --- | --- |
+| default_template | `template.html` | Default template to use if none specified. Can be any template inside `.parm/templates` |
 
 ##Usage Instructions
