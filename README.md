@@ -10,7 +10,7 @@ Parmesan automates the process of running your MultiMarkdown (or similar) parser
 
 I tried [Jekyll](http://jekyllrb.com/) and I tried [MultiMarkdown-CMS](https://github.com/fletcher/MultiMarkdown-CMS), but neither really fit my needs. Jekyll lacks MultiMarkdown support, and even MultiMarkdown-CMS has more complex features than I wanted. I wanted to be able to make a template for my index and a template for articles and then just write content. I didn't need to let people comment or log in. I just wanted a static site generation tool, so I wrote Parmesan.
 
-Why 'Parmesan'? Because __P__ (ython) (MultiM) __ar__ (kdown) __m__ (management)... something. I just liked the name.
+Why 'Parmesan'? Because __P__ (ython) (MultiM) __ar__ (kdown) __m__ (anagement)... something. I just like the name.
 
 ##Installation Instructions
 Just clone Parmesan into the root of whatever portion of your website you want to manage. The .parm folder should be in the root directory.
