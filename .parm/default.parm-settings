@@ -1,0 +1,6 @@
+{
+	"parser": "multimarkdown",
+	"parse_syntax": "multimarkdown $file > $out",
+	"generate_txt_version": false,
+	"include_html_in_txt": false
+}
