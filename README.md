@@ -3,6 +3,9 @@
 1. [About Parmesan](#about-parmesan)
 2. [Installation Instructions](#installation-instructions)
 3. [Configuration Instructions](#configuration-instructions)
+    - [Default Options](#default-options)
+    - [Additional Options](#additional-options)
+    - [Templates](#templates)
 4. [Usage Instructions](#usage-instructions)
 5. [Troubleshooting](#troubleshooting)
 
@@ -34,5 +37,8 @@ These options can be added to `user.parm-settings`, but are not present in `defa
 | Option | Values | Description |
 | --- | --- | --- |
 | default_template | `template.html` | Default template to use if none specified. Can be any template inside `.parm/templates` |
+
+####Templates
+Templates are files stored in `.parm/templates`. The html generated from your content files is inserted into these where marked with `{{content-here}}` or `{{content-id: <id>}}` if you have more than one content section for a template. These can be named whatever you would like, but the file type must match the intended filetype (ie. html, htm, php). It would make sense to name these based on what they are used for: index.html, article.html, post.html, about.html, contact.html, etc.
 
 ##Usage Instructions
