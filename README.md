@@ -94,5 +94,5 @@ Note: If you want parmesan to ignore a block of parmesan syntax and include it i
 ####Template Format
 The parmesan syntax for templates is similar to the syntax for content. In your template add `{{content-here}}` where your content should be placed. Or, if you have more than one section, add `{{content-id: <id>}}`, where `<id>` is the same as specified in a content document.
 
-Otherwise, templates are just html/php files. They can include as much or as little frills as you want. CSS, javascript, everything should work as normal.
+Otherwise, templates are just html/php files. They can include as much or as little frills as you want. CSS, javascript, everything should work as normal.  
 Warning: Do be careful about file paths. Don't make the javascript or css paths relative to the template file, but relative to where the content file is.
