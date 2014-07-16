@@ -96,3 +96,6 @@ The parmesan syntax for templates is similar to the syntax for content. In your 
 
 Otherwise, templates are just html/php files. They can include as much or as little frills as you want. CSS, javascript, everything should work as normal.  
 Warning: Do be careful about file paths. Don't make the javascript or css paths relative to the template file, but relative to where the content file is.
+
+##Troubleshooting
+If you have an issue or question just submit it here.
