@@ -21,6 +21,8 @@ Why 'Parmesan'? Because __P__ (ython) (MultiM) __ar__ (kdown) __m__ (anagement).
 ##Installation Instructions
 Just clone Parmesan into the root of whatever portion of your website you want to manage. The .parm folder should be in the root directory.
 
+Requires python 3.2 or higher.
+
 ##Configuration Instructions
 The default settings file is `.parm/default.parm-settings`. If you need to override any of these settings, it is reccomended that you create the file `.parm/user.parm-settings`, and add the options you would like to override.
 ####Default Options
@@ -44,7 +46,7 @@ These options can be added to `user.parm-settings`, but are not present in `defa
 Templates are files stored in `.parm/templates`. The html generated from your content files is inserted into these where marked with `{{content-here}}` or `{{content-id: <id>}}` if you have more than one content section for a template. These can be named whatever you would like, but the file type must match the intended filetype (ie. html, htm, php). It would make sense to name these based on what they are used for: index.html, article.html, post.html, about.html, contact.html, etc.
 
 ##Usage Instructions
-Using parmesan is as easy as typing `python parm.py` in the top directory (the directory that contains `.parm`). There are also some additional flags and options you can specify as well.
+Using parmesan is as easy as typing `python3 parm.py` in the top directory (the directory that contains `.parm`). There are also some additional flags and options you can specify as well.
 
 | Flag | Value | Description |
 | --- | --- | --- |
