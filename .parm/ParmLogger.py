@@ -7,6 +7,7 @@ class ParmLogger:
 	def __init__(self, verbose):
 		"""Figure out the filepath for the log file and if we are writing or appending"""
 		log_basepath = os.path.dirname(__file__)
+		log_basepath = os.path.join(log_basepath, 'logs')
 		timestamp = time.strftime('%y-%m-%d')
 		log_filename = 'log-'+timestamp+'.txt'
 		self.log_filepath = os.path.join(log_basepath, log_filename)
