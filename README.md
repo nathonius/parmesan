@@ -44,7 +44,7 @@ These options can be added to `user.parm-settings`, but are not present in `defa
 Templates are files stored in `.parm/templates`. The html generated from your content files is inserted into these where marked with `{{content-here}}` or `{{content-id: <id>}}` if you have more than one content section for a template. These can be named whatever you would like, but the file type must match the intended filetype (ie. html, htm, php). It would make sense to name these based on what they are used for: index.html, article.html, post.html, about.html, contact.html, etc.
 
 ##Usage Instructions
-Using parmesan is as easy as typing `python parm.py`. There are also some additional flags and options you can specify as well.
+Using parmesan is as easy as typing `python parm.py` in the top directory (the directory that contains `.parm`). There are also some additional flags and options you can specify as well.
 
 | Flag | Value | Description |
 | --- | --- | --- |
