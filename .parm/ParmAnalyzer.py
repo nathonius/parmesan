@@ -11,18 +11,10 @@ class ParmAnalyzer:
 		self.parm_root = os.path.dirname(self.parm_root)
 		self.logger = ParmLogger.ParmLogger()
 		self.ignore = ('.py', '.pyc', '.parm-settings', '.html', '.htm', '.php', '.css', '.js')
-	"""def go(self):
-		for root, dirs, files in walk(self.parm_root):
-			#IGNORE HIDDEN FILES
-			files = [f for f in files if not f[0] == '.']
-			dirs[:] = [d for d in dirs if (not d[0] == '.' or d == '.parm')]
-			print('Root:',root)
-			print('Dirs:',dirs)
-			print('Files:',files)
-			print('\n')"""
 
 	def read_manifest(self):
 		"""Returns dict of files tracked in manifest with their last modified dates"""
+		self.logger.log("Reading manifest.")
 		manifest_path = os.path.join(self.parm_root, '.parm')
 		manifest_path = os.path.join(manifest_path, 'manifest.parm-settings')
 		tracked_content = {}
@@ -44,6 +36,7 @@ class ParmAnalyzer:
 
 	def find_modified_content(self, tracked_content):
 		"""Returns 2 dicts of content files that have been added or changed (not deleted)"""
+		self.logger.log("Finding new and changed content files.")
 		added_content = {}
 		modified_content = {}
 		for root, dirs, files in walk(self.parm_root):
@@ -66,6 +59,7 @@ class ParmAnalyzer:
 
 	def find_removed_contet(self, tracked_content):
 		"""Returns list of content files that have been removed"""
+		self.logger.log("Finding deleted content files.")
 		removed_content = {}
 		for path in tracked_content.keys():
 			if(not os.path.isfile(path)):
