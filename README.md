@@ -24,7 +24,7 @@ Just clone Parmesan into the root of whatever portion of your website you want t
 Requires python 3.2 or higher.
 
 ##Configuration Instructions
-The default settings file is `.parm/default.parm-settings`. If you need to override any of these settings, it is reccomended that you create the file `.parm/user.parm-settings`, and add the options you would like to override.
+The default settings file is `.parm/default.parm-settings`. If you need to override any of these settings, it is recommended that you create the file `.parm/user.parm-settings`, and add the options you would like to override.
 ####Default Options
 These are the options in `default.parm-settings`, and what they mean.
 
