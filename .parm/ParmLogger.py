@@ -1,5 +1,6 @@
 import time
 import os.path
+import sys
 
 class ParmLogger:
 	"""Parmesan logger. Log files are created based on the date."""
@@ -36,3 +37,8 @@ class ParmLogger:
 		with open(self.log_filepath, mode) as log_file:
 			log_file.write(message)
 
+	def log_error(self):
+		"""Log the three pieces of an exception"""
+		error = sys.exc_info()
+		for i in error:
+			self.log(i)
