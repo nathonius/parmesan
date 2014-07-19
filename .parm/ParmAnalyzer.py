@@ -81,6 +81,7 @@ class ParmAnalyzer:
 			removed_content = self.find_removed_content(tracked_content)
 		except:
 			self.logger.log_error()
+			return False
 		self.logger.log("Updating manifest.")
 		new_manifest = ""
 		modified_files = modified_content.keys()
@@ -102,3 +103,4 @@ class ParmAnalyzer:
 		with open(self.manifest_path, 'w') as manifest:
 			manifest.write(new_manifest)
 		self.logger.log("Wrote new manifest.")
+		return True
