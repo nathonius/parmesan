@@ -9,11 +9,7 @@ class ParmAnalyzer:
 		self.parm_root = os.path.abspath(__file__)
 		self.parm_root = os.path.dirname(self.parm_root)
 		self.parm_root = os.path.dirname(self.parm_root)
-<<<<<<< HEAD
 		self.logger = ParmLogger.ParmLogger(verbose)
-=======
-		self.logger = ParmLogger.ParmLogger()
->>>>>>> f026171bd6ad3f3d9e251341660d8557e7aa0716
 		self.ignore = ('.py', '.pyc', '.parm-settings', '.html', '.htm', '.php', '.css', '.js')
 		self.manifest_path = os.path.join(self.parm_root, '.parm')
 		self.manifest_path = os.path.join(self.manifest_path, 'manifest.parm-settings')
@@ -21,17 +17,10 @@ class ParmAnalyzer:
 
 	def is_content(self, path):
 		"""Returns true if given file path is a content file"""
-<<<<<<< HEAD
 		filename = str(os.path.basename(path))
 		if(not os.path.isfile(path)):
 			return False
 		elif(str(filename).endswith(self.ignore) or filename == 'parm' or filename =='README.md'):
-=======
-		filename = str(os.path.basename(path)).lower()
-		if(not os.path.isfile(path)):
-			return False
-		elif(str(filename).endswith(self.ignore)):
->>>>>>> f026171bd6ad3f3d9e251341660d8557e7aa0716
 			return False
 		else:
 			return True
@@ -77,35 +66,23 @@ class ParmAnalyzer:
 				processed_line = line.split("|")
 				if(processed_line[1].strip() != 'REMOVED'):
 					tracked_content[processed_line[0]] = float(processed_line[1].strip())
-<<<<<<< HEAD
 					if(len(processed_line) == 3):
 						newline = processed_line[0].strip() + '|' + processed_line[1].strip() + '\n'
 						self.existing_manifest.append(newline)
 					else:
 						self.existing_manifest.append(line)
-=======
-					self.existing_manifest.append(line)
->>>>>>> f026171bd6ad3f3d9e251341660d8557e7aa0716
 		return tracked_content
 
 	def update_manifest(self):
 		"""Updates the manifest, adding new files, sets timestamp on changed files, sets deleted files timestamps to removed"""
 		try:
 			tracked_content = self.read_manifest()
-<<<<<<< HEAD
 			(added_content, modified_content) = self.find_modified_content(tracked_content)
-=======
-			(added_content, modified_content) = self.find_removed_content(tracked_content)
->>>>>>> f026171bd6ad3f3d9e251341660d8557e7aa0716
 			removed_content = self.find_removed_content(tracked_content)
 		except:
 			self.logger.log_error()
 		self.logger.log("Updating manifest.")
 		new_manifest = ""
-<<<<<<< HEAD
-=======
-		added_files = added_content.keys()
->>>>>>> f026171bd6ad3f3d9e251341660d8557e7aa0716
 		modified_files = modified_content.keys()
 		for line in self.existing_manifest:
 			path = line.split('|')[0]
@@ -114,7 +91,6 @@ class ParmAnalyzer:
 				new_manifest = new_manifest + path + '|REMOVED\n'
 			#Check to see if we are modifying a file
 			elif(path in modified_files):
-<<<<<<< HEAD
 				new_manifest = new_manifest + path + '|' + str(modified_content[path]) + '|CHANGED' + '\n'
 			#Otherwise, this file hasn't changed
 			else:
@@ -122,15 +98,6 @@ class ParmAnalyzer:
 		#Add new files:
 		for path in added_content.keys():
 			new_manifest = new_manifest + path + '|' + str(added_content[path]) + '|ADDED' + '\n'
-=======
-				new_manifest = new_manifest + path + '|' + modified_content[path] + '\n'
-			#Check to see if we are adding a file
-			elif(path in added_files):
-				new_manifest = new_manifest + path + '|' + added_content[path] + '\n'
-			#Otherwise, this file hasn't changed
-			else:
-				new_manifest = new_manifest + line
->>>>>>> f026171bd6ad3f3d9e251341660d8557e7aa0716
 		#Write the new manifest
 		with open(self.manifest_path, 'w') as manifest:
 			manifest.write(new_manifest)
