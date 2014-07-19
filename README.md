@@ -34,6 +34,7 @@ These are the options in `default.parm-settings`, and what they mean.
 | parse_syntax | Example: `$file > $out` | The syntax for your chosen parser. `$file` and `$out`, the input file and the output file respectively, are required. Will be called as `<parser> <parse_syntax>` (default: multimarkdown syntax) |
 | generate_txt_version | true, false | If true, will generate .txt file versions of your markdown that can be viewed on the web. (default: false)|
 | include_html_in_txt | true, false | If true and `generate_txt_version` is true, the html template code will be included as well as the markdown text when creating the optional .txt files. (default: false) |
+| autoremove_generated_files | true, false | If true, if the content file is removed, the next time you run parmesan, any files generated from that content will be removed as well. (default: false) |
 
 ####Additional Options
 These options can be added to `user.parm-settings`, but are not present in `default.parm-settings`.
