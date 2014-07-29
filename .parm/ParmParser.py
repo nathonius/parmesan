@@ -1,5 +1,8 @@
 import os.path
-import ParmLogger
+import os
+from ParmLogger import ParmLogger
+from ParmOptions import ParmOptions
+from ParmContentGenerator import ParmContentGenerator
 
 class ParmParser:
 	"""Parses the all content listed in the manifest, executes the correct commands on the content"""
@@ -7,16 +10,29 @@ class ParmParser:
 		"""Set up the root path, the manifest path, and the logger"""
 		self.manifest_path = os.path.abspath(__file__)
 		self.manifest_path = os.path.dirname(self.parm_root)
+		self.default_options_path = os.path.join(self.manifest_path, 'default.parm-settings')
+		self.user_options_path = os.path.join(self.manifest_path, 'user.parm-settings')
 		self.manifest_path = os.path.join(self.manifest_path, 'manifest.parm-settings')
-		self.logger = ParmLogger.ParmLogger(verbose)
-		self.options = self.read_options()
-
-	def read_options(self):
-		
+		self.logger = ParmLogger(verbose)
+		self.options = ParmOptions(verbose)
+		self.generator = ParmContentGenerator(verbose)
 
 	def content_removed(self, path):
 		"""Removes the generated files associated with removed content"""
-
+		if not self.options.autoremove_generated_files:
+			return
+		possible_types = [".html", ".htm", ".php"]
+		if self.options.generate_txt_version:
+			possible_types.append(".txt")
+		filedir = os.path.dirname(path)
+		filename = os.path.basename(path)
+		type_pos = filename.rfind(".")
+		filename = filename[:type_pos]
+		for ftype in possible_types:
+			name = filename+ftype
+			fpath = os.path.join(filedir, name)
+			if os.path.isfile(fpath):
+				os.remove(fpath)
 
 	def parse_manifest(self):
 		"""Read the manifest, call the appropriate functions"""
@@ -39,15 +55,9 @@ class ParmParser:
 					except:
 						self.logger.log_error()
 						return False
-				elif(action == 'ADDED'):
-					try:
-						self.content_added(path)
-					except:
-						self.logger.log_error()
-						return False
 				else:
 					try:
-						self.content_modified(path)
+						self.generator.update_content(path)
 					except:
 						self.logger.log_error()
 						return False
