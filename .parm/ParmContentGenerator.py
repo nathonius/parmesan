@@ -85,7 +85,7 @@ class ParmContentGenerator:
 		self.logger.log("Parse syntax:")
 		self.logger.log(str(parse_syntax))
 		try:
-			subprocess.check_call(parse_syntax)
+			subprocess.check_call(parse_syntax, shell=True)
 		except:
 			self.logger.log_error()
 			raise
