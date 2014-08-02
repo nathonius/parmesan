@@ -91,7 +91,7 @@ class ParmContentGenerator:
 		except:
 			self.logger.log_error()
 			raise
-		full_content = before_content + str(html_content) + after_content
+		full_content = before_content + html_content.decode('utf-8') + after_content
 		with open(output_path, 'w') as output_file:
 			output_file.write(full_content)
 		return True
