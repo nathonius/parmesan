@@ -69,6 +69,7 @@ class ParmContentGenerator:
 
 	def generate_web(self, content_path, before_content, after_content, template_type):
 		"""Run the markdown parser"""
+		self.logger.log("\tRunning parser.")
 		parser = self.options.parser
 		parse_syntax = self.options.parse_syntax.split()
 		content_filename = os.path.basename(content_path)
@@ -81,7 +82,6 @@ class ParmContentGenerator:
 			elif parse_syntax[i] == '$out':
 				parse_syntax[i] = output_path
 		parse_syntax = parser + parse_syntax
-		print(parse_syntax)
 		try:
 			subprocess.check_call(parse_syntax)
 		except:
