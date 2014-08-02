@@ -83,21 +83,18 @@ class ParmContentGenerator:
 			elif parse_syntax[i] == '$out':
 				parse_syntax[i] = output_path
 		parse_syntax = [parser] + parse_syntax
+		parse_syntax = [parser, content_path]
 		self.logger.log("Parse syntax:")
 		self.logger.log(str(parse_syntax))
-		new_syntax = ""
-		for arg in parse_syntax:
-			new_syntax += arg + " "
-		new_syntax = new_syntax.strip()
-		#try:
-		#	subprocess.check_call(parse_syntax, shell=True)
 		try:
-			os.system(new_syntax)
+			html_content = subprocess.check_output(parse_syntax)
 		except:
 			self.logger.log_error()
 			raise
-		else:
-			return True
+		full_content = before_content + html_content + after_content
+		with open(output_path, 'w') as output_file:
+			output_file.write(full_content)
+		return True
 
 	def update_content(self, path):
 		"""Add or re-process modified content"""
