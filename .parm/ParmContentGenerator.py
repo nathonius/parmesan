@@ -81,7 +81,7 @@ class ParmContentGenerator:
 				parse_syntax[i] = content_path
 			elif parse_syntax[i] == '$out':
 				parse_syntax[i] = output_path
-		parse_syntax = list(parser) + parse_syntax
+		parse_syntax = [parser] + parse_syntax
 		self.logger.log("Parse syntax:")
 		self.logger.log(str(parse_syntax))
 		try:
