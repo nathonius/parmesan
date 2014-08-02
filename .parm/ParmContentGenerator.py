@@ -93,7 +93,7 @@ class ParmContentGenerator:
 			raise
 		full_content = before_content + html_content + after_content
 		with open(output_path, 'w') as output_file:
-			output_file.write(full_content)
+			output_file.write(str(full_content))
 		return True
 
 	def update_content(self, path):
