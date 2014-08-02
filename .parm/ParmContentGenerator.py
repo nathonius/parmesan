@@ -19,9 +19,10 @@ class ParmContentGenerator:
 				break
 			elif found_parm_data:
 				data = line.split(':')
-				option = data[0].strip('" ')
-				value = data[1].strip('" ')
-				value = value.strip()
+				data[0] = data[0].replace('"', '')
+				data[1] = data[1].replace('"', '')
+				option = data[0].strip()
+				value = data[1].strip()
 				parm_data[option] = value
 			elif line.startswith("{{") and not "<!--parmesan-ignore-->" in previous_line:
 				found_parm_data = True
