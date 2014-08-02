@@ -42,4 +42,4 @@ class ParmLogger:
 		"""Log the three pieces of an exception"""
 		error = sys.exc_info()
 		for i in error:
-			self.log(i)
+			self.log(str(i))

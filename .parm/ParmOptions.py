@@ -13,17 +13,22 @@ class ParmOptions:
 		default_options_path = os.path.join(options_path, 'default.parm-settings')
 		#Read options files
 		logger.log("Reading default.parm-settings.")
+		default = {}
+		user = {}
 		try:
-			default = json.load(default_options_path)
+			with open(default_options_path, 'r') as default_options_file:
+				default = json.load(default_options_file)
 		except:
 			logger.log_error()
 			raise
-		try:
+		if os.path.isfile(user_options_path):
 			logger.log("Reading user.parm-settings.")
-		except:
-			logger.log_error
-			raise
-		user = json.load(user_options_path)
+			try:
+				with open(user_options_path, 'r') as user_options_file:
+					user = json.load(user_options_file)
+			except:
+				logger.log_error
+				raise
 		#Store as class variable
 		self.options = default
 		self.options["verbose"] = verbose
@@ -32,7 +37,7 @@ class ParmOptions:
 
 	def __getattr__(self, name):
 		"""Make it easier to access options"""
-		if(name in self.options.keys()):
+		if name in self.options.keys():
 			return self.options[name]
 		else:
-			raise AttributeError('Class ParmOptions has no attribute named '+name)
+			return None

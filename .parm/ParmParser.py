@@ -8,8 +8,7 @@ class ParmParser:
 	"""Parses the all content listed in the manifest, executes the correct commands on the content"""
 	def __init__(self, verbose):
 		"""Set up the root path, the manifest path, and the logger"""
-		self.manifest_path = os.path.abspath(__file__)
-		self.manifest_path = os.path.dirname(self.parm_root)
+		self.manifest_path = os.path.dirname(__file__)
 		self.default_options_path = os.path.join(self.manifest_path, 'default.parm-settings')
 		self.user_options_path = os.path.join(self.manifest_path, 'user.parm-settings')
 		self.manifest_path = os.path.join(self.manifest_path, 'manifest.parm-settings')
@@ -61,3 +60,5 @@ class ParmParser:
 					except:
 						self.logger.log_error()
 						return False
+		self.logger.log("\tDone.")
+		return True

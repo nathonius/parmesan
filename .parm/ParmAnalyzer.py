@@ -10,7 +10,7 @@ class ParmAnalyzer:
 		self.parm_root = os.path.dirname(self.parm_root)
 		self.parm_root = os.path.dirname(self.parm_root)
 		self.logger = ParmLogger.ParmLogger(verbose)
-		self.ignore = ('.py', '.pyc', '.parm-settings', '.html', '.htm', '.php', '.css', '.js')
+		self.ignore = ('.py', '.pyc', '.parm-settings', '.html', '.htm', '.php', '.css', '.js', '.sublime-workspace')
 		self.manifest_path = os.path.join(self.parm_root, '.parm')
 		self.manifest_path = os.path.join(self.manifest_path, 'manifest.parm-settings')
 		self.existing_manifest = []
