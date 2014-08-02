@@ -81,6 +81,7 @@ class ParmContentGenerator:
 			elif parse_syntax[i] == '$out':
 				parse_syntax[i] = output_path
 		parse_syntax = parser + parse_syntax
+		print(parse_syntax)
 		try:
 			subprocess.check_call(parse_syntax)
 		except:
