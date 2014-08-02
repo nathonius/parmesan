@@ -2,6 +2,7 @@ from ParmOptions import ParmOptions
 from ParmLogger import ParmLogger
 import os.path
 import subprocess
+import os
 
 class ParmContentGenerator:
 	"""Process content and templates to generate the website"""
@@ -84,8 +85,14 @@ class ParmContentGenerator:
 		parse_syntax = [parser] + parse_syntax
 		self.logger.log("Parse syntax:")
 		self.logger.log(str(parse_syntax))
+		new_syntax = ""
+		for arg in parse_syntax:
+			new_syntax += arg + " "
+		new_syntax = new_syntax.strip()
+		#try:
+		#	subprocess.check_call(parse_syntax, shell=True)
 		try:
-			subprocess.check_call(parse_syntax, shell=True)
+			os.system(new_syntax)
 		except:
 			self.logger.log_error()
 			raise
