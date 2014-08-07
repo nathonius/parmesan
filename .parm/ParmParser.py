@@ -68,7 +68,11 @@ class ParmParser:
 						return False
 				else:
 					try:
-						self.generator.update_content(path)
+						if self.generator.update_content(path):
+							pass
+						else:
+							self.touch_file(path)
+							return False
 					except:
 						self.touch_file(path)
 						self.logger.log_error()
