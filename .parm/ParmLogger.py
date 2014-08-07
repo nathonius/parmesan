@@ -24,7 +24,7 @@ class ParmLogger:
 		"""Log a message"""
 		#format the message
 		timestamp = self.timestamp()
-		message = timestamp+' '+message.strip()
+		message = timestamp+' '+message.strip('\n')
 		#if we are verbose, output the message
 		if(self.verbose):
 			print(message)
