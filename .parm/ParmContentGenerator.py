@@ -3,6 +3,7 @@ from ParmLogger import ParmLogger
 import os.path
 import subprocess
 import os
+import re
 
 class ParmContentGenerator:
 	"""Process content and templates to generate the website"""
@@ -16,27 +17,43 @@ class ParmContentGenerator:
 		parm_data = {}
 		found_parm_data = False
 		for line in content:
-			if found_parm_data and line.startswith("}}"):
-				break
-			elif found_parm_data:
-				data = line.split(':')
-				data[0] = data[0].replace('"', '')
-				data[1] = data[1].replace('"', '')
+			if re.search(r'{{\s*"+}}', line) and not "<!--parmesan-ignore-->" in previous_line:
+				data = line.replace('{{', '')
+				data = data.replace('}}', '')
+				data = data.replace('"', '')
+				data = data.strip()
+				data = data.split(':')
 				option = data[0].strip()
 				value = data[1].strip()
 				parm_data[option] = value
-			elif line.startswith("{{") and not "<!--parmesan-ignore-->" in previous_line:
 				found_parm_data = True
+				break
 			else:
-				pass
+				previous_line = line
 		if(found_parm_data == False):
 			self.logger.log("\t\tCould not find parm settings block inside content file!")
 			return False
 		else:
 			return parm_data
 
+	def find_template(self, parm_data):
+		template_path = os.path.dirname(__file__)
+		template_path = os.path.join(template_path, 'templates')
+		if not 'template' in parm_data.keys() and self.options.default_template == None:
+			self.logger.log("\t\tNo template or default template specified!")
+			return False
+		else:
+			if not 'template' in parm_data.keys():
+				parm_data["template"] = self.options.default_template
+		template_path = os.path.join(template_path, parm_data['template'])
+		if not os.path.isfile(template_path):
+			self.logger.log("\t\tTemplate file "+template_path+" does not exist!")
+			return False
+		else:
+			return template_path
+
 	def get_template(self, template):
-		"""Finds the correct template. Returns it in pieces before and after content block(s)"""
+		"""Given a template file pointer, returns it in pieces before and after content block(s)"""
 		before = ""
 		after = ""
 		found_content_tag = False
@@ -87,19 +104,20 @@ class ParmContentGenerator:
 		self.logger.log("Parse syntax:")
 		self.logger.log(str(parse_syntax))
 		try:
-			html_content = subprocess.check_output(parse_syntax)
+			html_content = subprocess.check_output(parse_syntax).decode('utf-8')
 		except:
 			self.logger.log_error()
 			raise
-		full_content = before_content + html_content.decode('utf-8') + after_content
+		#Strip parm-content block
+		html_content = re.sub(r'{{\s*"+}}', '', html_content)
+		#Place the content in the template
+		full_content = before_content + html_content + after_content
 		with open(output_path, 'w') as output_file:
 			output_file.write(full_content)
 		return True
 
 	def update_content(self, path):
 		"""Add or re-process modified content"""
-		template_path = os.path.dirname(__file__)
-		template_path = os.path.join(template_path, 'templates')
 		filename = os.path.basename(path)
 		self.logger.log("\tGenerating content from " + str(filename) + "...")
 		parm_data = {}
@@ -109,16 +127,10 @@ class ParmContentGenerator:
 			if not parm_data:
 				return False
 		#Figure out if we have a template
-		if not 'template' in parm_data.keys() and self.options.default_template == None:
-			self.logger.log("\t\tNo template or default template specified!")
+		template_path = self.find_template(parm_data)
+		if not template_path:
 			return False
-		else:
-			if not 'template' in parm_data.keys():
-				parm_data["template"] = self.options.default_template
-		template_path = os.path.join(template_path, parm_data['template'])
-		if not os.path.isfile(template_path):
-			self.logger.log("\t\tTemplate file "+template_path+" does not exist!")
-			return False
+
 		#We have a template
 		else:
 			template_filename = os.path.basename(template_path)

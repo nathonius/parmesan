@@ -54,37 +54,27 @@ Using parmesan is as easy as typing `./parm` in the top directory (the directory
 | -v | N/A | Verbose mode. Essentially prints the log to the terminal. (default: off) |
 
 ####Content Format
-Parmesan looks for a certain format at the top of content files. This is not required if you have specified a default template. The format is a modified JSON syntax:
-```
-{{
-    "template": "post.html",
-    "content-id": "post-body"
-}}
-```
+Parmesan looks for a certain format at the top of content files. This is not required if you have specified a default template. The format is a modified JSON syntax: `{{"template": "post.html"}}`  
 
-This block of parmesan specific code can also show up again later in your content document if you have more than one place in your template to put content. For example:
+You can also include an optional `{{"content-id": "content-id-value"}}` block. If you have multiple sections of content to be placed in different locations in the template file, this block specifies the correct location for the content.  
+
+These blocks of parmesan specific code can also show up again later in your content document if you have more than one place in your template to put content. For example:
 ```
-{{
-    "template": "post.html",
-    "content-id": "post-header"
-}}
+{{"template": "post.html",}}
+{{"content-id": "post-header"}}
 
 <CONTENT>
 
-{{
-    "content-id": "post-body"
-}}
+{{"content-id": "post-body"}}
 
 <CONTENT>
 
-{{
-    "content-id": "post-summary"
-}}
+{{"content-id": "post-summary"}}
 
 <CONTENT>
 ```
 
-Then if the content-id is specified in the given template, the content following the content-id declaration will be appropriately placed.
+Then if the content-id is specified in the given template, the content following the content-id declaration will be appropriately placed. Note that if you have a content-id block in your content file but there is no matching content-id block in the template file, that portion of the content will be ignored.
 
 | Variable | Value | Description |
 | --- | --- | --- |
