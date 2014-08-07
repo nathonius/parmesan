@@ -27,7 +27,7 @@ class ParmAnalyzer:
 
 	def find_modified_content(self, tracked_content):
 		"""Returns 2 dicts of content files that have been added or changed (not deleted)"""
-		self.logger.log("Finding new and changed content files.")
+		self.logger.log("\tFinding new and changed content files.")
 		added_content = {}
 		modified_content = {}
 		for root, dirs, files in walk(self.parm_root):
@@ -50,7 +50,7 @@ class ParmAnalyzer:
 
 	def find_removed_content(self, tracked_content):
 		"""Returns list of content files that have been removed"""
-		self.logger.log("Finding deleted content files.")
+		self.logger.log("\tFinding deleted content files.")
 		removed_content = []
 		for path in tracked_content.keys():
 			if(not os.path.isfile(path)):
@@ -59,7 +59,7 @@ class ParmAnalyzer:
 
 	def read_manifest(self):
 		"""Returns dict of files tracked in manifest with their last modified dates"""
-		self.logger.log("Reading manifest.")
+		self.logger.log("\tReading manifest.")
 		tracked_content = {}
 		with open(self.manifest_path, 'r') as manifest:
 			for line in manifest:
@@ -75,6 +75,7 @@ class ParmAnalyzer:
 
 	def update_manifest(self):
 		"""Updates the manifest, adding new files, sets timestamp on changed files, sets deleted files timestamps to removed"""
+		self.logger.log("Updating manifest.")
 		try:
 			tracked_content = self.read_manifest()
 			(added_content, modified_content) = self.find_modified_content(tracked_content)
@@ -82,7 +83,8 @@ class ParmAnalyzer:
 		except:
 			self.logger.log_error()
 			return False
-		self.logger.log("Updating manifest.")
+		else:
+			self.logger.log("\tRead manifest.")
 		new_manifest = ""
 		modified_files = modified_content.keys()
 		for line in self.existing_manifest:

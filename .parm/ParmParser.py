@@ -31,11 +31,12 @@ class ParmParser:
 			name = filename+ftype
 			fpath = os.path.join(filedir, name)
 			if os.path.isfile(fpath):
+				self.logger.log("\tRemoving generated file "+name+".")
 				os.remove(fpath)
 
 	def touch_file(self, path):
 		"""Reads and re-writes the file to update its 'date modified' value"""
-		self.logger.log("Touching "+os.path.basename(path))
+		self.logger.log("\tTouching "+os.path.basename(path))
 		if not os.path.isfile(path):
 			return False
 		file_str = ""
@@ -47,7 +48,7 @@ class ParmParser:
 
 	def parse_manifest(self):
 		"""Read the manifest, call the appropriate functions"""
-		self.logger.log("Reading manifest.")
+		self.logger.log("Parsing new manifest.")
 		with open(self.manifest_path, 'r') as manifest:
 			for line in manifest:
 				processed_line = line.split('|')
