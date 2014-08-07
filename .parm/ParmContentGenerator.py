@@ -90,7 +90,7 @@ class ParmContentGenerator:
 
 	def generate_web(self, content_path, before_content, after_content, template_type):
 		"""Run the markdown parser"""
-		self.logger.log("\tRunning parser.")
+		self.logger.log("\t\tRunning parser.")
 		parser = self.options.parser
 		parse_syntax = self.options.parse_syntax.split()
 		content_filename = os.path.basename(content_path)
@@ -144,5 +144,5 @@ class ParmContentGenerator:
 			if self.options.generate_text_version:
 				self.get_txt_version(path, before_content, after_content)
 			self.generate_web(path, before_content, after_content, template_type)
-			self.logger.log("\t\tDone.")
+			self.logger.log("\t\tGenerated.")
 			return True
