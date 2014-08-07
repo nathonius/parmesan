@@ -12,7 +12,6 @@ class ParmOptions:
 		user_options_path = os.path.join(options_path, 'user.parm-settings')
 		default_options_path = os.path.join(options_path, 'default.parm-settings')
 		#Read options files
-		logger.log("Reading default.parm-settings.")
 		default = {}
 		user = {}
 		try:
@@ -22,7 +21,6 @@ class ParmOptions:
 			logger.log_error()
 			raise
 		if os.path.isfile(user_options_path):
-			logger.log("Reading user.parm-settings.")
 			try:
 				with open(user_options_path, 'r') as user_options_file:
 					user = json.load(user_options_file)

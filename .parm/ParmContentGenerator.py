@@ -14,6 +14,7 @@ class ParmContentGenerator:
 
 	def get_content_info(self, content):
 		"""Parses the content file for the parm settings block"""
+		self.logger.log("\t\tSearching for parm settings block.")
 		previous_line = ""
 		parm_data = {}
 		found_parm_data = False
@@ -37,6 +38,7 @@ class ParmContentGenerator:
 			return parm_data
 
 	def find_template(self, parm_data):
+		self.logger.log("\t\tSearching for template.")
 		template_path = os.path.dirname(__file__)
 		template_path = os.path.join(template_path, 'templates')
 		if not 'template' in parm_data.keys() and self.options.default_template == None:
@@ -53,6 +55,7 @@ class ParmContentGenerator:
 			return template_path
 
 	def get_template(self, template):
+		self.logger.log("\t\tReading template.")
 		"""Given a template file pointer, returns it in pieces before and after content block(s)"""
 		before = ""
 		after = ""
@@ -101,8 +104,6 @@ class ParmContentGenerator:
 				parse_syntax[i] = output_path
 		parse_syntax = [parser] + parse_syntax
 		parse_syntax = [parser, content_path]
-		self.logger.log("Parse syntax:")
-		self.logger.log(str(parse_syntax))
 		try:
 			html_content = subprocess.check_output(parse_syntax).decode('utf-8')
 		except:
