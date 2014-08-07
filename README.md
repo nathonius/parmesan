@@ -44,7 +44,7 @@ These options can be added to `user.parm-settings`, but are not present in `defa
 | default_template | `template.html` | Default template to use if none specified. Can be any template inside `.parm/templates` |
 
 ####Templates
-Templates are files stored in `.parm/templates`. The html generated from your content files is inserted into these where marked with `{{content-here}}` or `{{content-id: <id>}}` if you have more than one content section for a template. These can be named whatever you would like, but the file type must match the intended filetype (ie. html, htm, php). It would make sense to name these based on what they are used for: index.html, article.html, post.html, about.html, contact.html, etc.
+Templates are files stored in `.parm/templates`. The html generated from your content files is inserted into these where marked with `{!content-here!}` or `{!content-id: <id>!}` if you have more than one content section for a template. These can be named whatever you would like, but the file type must match the intended filetype (ie. html, htm, php). It would make sense to name these based on what they are used for: index.html, article.html, post.html, about.html, contact.html, etc.
 
 ##Usage Instructions
 Using parmesan is as easy as typing `./parm` in the top directory (the directory that contains `.parm`). There are also some additional flags and options you can specify as well.
@@ -54,22 +54,22 @@ Using parmesan is as easy as typing `./parm` in the top directory (the directory
 | -v | N/A | Verbose mode. Essentially prints the log to the terminal. (default: off) |
 
 ####Content Format
-Parmesan looks for a certain format at the top of content files. This is not required if you have specified a default template. The format is a modified JSON syntax: `{{"template": "post.html"}}`  
+Parmesan looks for a certain format at the top of content files. This is not required if you have specified a default template. The format is a modified JSON syntax: `{!template: post.html!}`  
 
-You can also include an optional `{{"content-id": "content-id-value"}}` block. If you have multiple sections of content to be placed in different locations in the template file, this block specifies the correct location for the content.  
+You can also include an optional `{!content-id: content-id-value!}` block. If you have multiple sections of content to be placed in different locations in the template file, this block specifies the correct location for the content.  
 
 These blocks of parmesan specific code can also show up again later in your content document if you have more than one place in your template to put content. For example:
 ```
-{{"template": "post.html",}}
-{{"content-id": "post-header"}}
+{!template: post.html!}
+{!content-id: post-header!}
 
 <CONTENT>
 
-{{"content-id": "post-body"}}
+{!content-id: post-body!}
 
 <CONTENT>
 
-{{"content-id": "post-summary"}}
+{!content-id: post-summary!}
 
 <CONTENT>
 ```
@@ -79,13 +79,13 @@ Then if the content-id is specified in the given template, the content following
 | Variable | Value | Description |
 | --- | --- | --- |
 | template | Any template in `.parm/templates` | Specifies the template to use. Only the first template declaration will be used. Further declarations are ignored. Required if a default template is not set. |
-| content-id | Any specified `{{content-id: <id>}}` section in a template file | Tells parmesan where in the template file to place your content. Not required if template only has `{{content-here}}`. |
+| content-id | Any specified `{!content-id: <id>!}` section in a template file | Tells parmesan where in the template file to place your content. Not required if template only has `{!content-here!}`. |
 
 Note: If you want parmesan to ignore a block of parmesan syntax and include it in your content, place the following html comment just above the syntax block. 
 `<!--parmesan-ignore-->`
 
 ####Template Format
-The parmesan syntax for templates is similar to the syntax for content. In your template add `{{content-here}}` where your content should be placed. Or, if you have more than one section, add `{{content-id: <id>}}`, where `<id>` is the same as specified in a content document.
+The parmesan syntax for templates is similar to the syntax for content. In your template add `{!content-here!}` where your content should be placed. Or, if you have more than one section, add `{!content-id: <id>!}`, where `<id>` is the same as specified in a content document.
 
 Otherwise, templates are just html/php files. They can include as much or as little frills as you want. CSS, javascript, everything should work as normal.  
 Warning: Do be careful about file paths. Don't make the javascript or css paths relative to the template file, but relative to where the content file is.

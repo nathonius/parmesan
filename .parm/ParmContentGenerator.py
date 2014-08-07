@@ -18,10 +18,9 @@ class ParmContentGenerator:
 		parm_data = {}
 		found_parm_data = False
 		for line in content:
-			if re.search(r'{{".*": ".*"}}', line) and not "<!--parmesan-ignore-->" in previous_line:
-				data = line.replace('{{', '')
-				data = data.replace('}}', '')
-				data = data.replace('"', '')
+			if re.search(r'{!.*: .*!}', line) and not "<!--parmesan-ignore-->" in previous_line:
+				data = line.replace('{!', '')
+				data = data.replace('!}', '')
 				data = data.strip()
 				data = data.split(':')
 				option = data[0].strip()
@@ -59,7 +58,7 @@ class ParmContentGenerator:
 		after = ""
 		found_content_tag = False
 		for line in template:
-			if '{{content-here}}' in line:
+			if '{!content-here!}' in line:
 				found_content_tag = True
 			elif found_content_tag == False:
 				before = before + line + "\n"
@@ -110,10 +109,7 @@ class ParmContentGenerator:
 			self.logger.log_error()
 			raise
 		#Strip parm-content block
-		pattern = r'{{".*": ".*"}}'
-		escape(pattern, quote=True)
-		self.logger.log(pattern)
-		html_content = re.sub(pattern, '', html_content)
+		html_content = re.sub(r'{!.*: .*!}', '', html_content)
 		#Place the content in the template
 		full_content = before_content + html_content + after_content
 		with open(output_path, 'w') as output_file:
