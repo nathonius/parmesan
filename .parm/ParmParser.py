@@ -33,6 +33,17 @@ class ParmParser:
 			if os.path.isfile(fpath):
 				os.remove(fpath)
 
+	def touch_file(self, path):
+		"""Reads and re-writes the file to update its 'date modified' value"""
+		if not os.path.isfile(path):
+			return False
+		file_str = ""
+		with open(path, 'r') as f:
+			file_str = f.read()
+		with open(path, 'w') as f:
+			f.write(file_str)
+		return True
+
 	def parse_manifest(self):
 		"""Read the manifest, call the appropriate functions"""
 		self.logger.log("Reading manifest.")
@@ -58,6 +69,7 @@ class ParmParser:
 					try:
 						self.generator.update_content(path)
 					except:
+						self.touch_file(path)
 						self.logger.log_error()
 						return False
 		self.logger.log("\tDone.")
