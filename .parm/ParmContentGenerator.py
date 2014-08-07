@@ -17,7 +17,7 @@ class ParmContentGenerator:
 		parm_data = {}
 		found_parm_data = False
 		for line in content:
-			if re.search(r'{{\s*"+}}', line) and not "<!--parmesan-ignore-->" in previous_line:
+			if re.search(r'{{+.+:+}}', line) and not "<!--parmesan-ignore-->" in previous_line:
 				data = line.replace('{{', '')
 				data = data.replace('}}', '')
 				data = data.replace('"', '')
@@ -109,7 +109,7 @@ class ParmContentGenerator:
 			self.logger.log_error()
 			raise
 		#Strip parm-content block
-		html_content = re.sub(r'{{\s*"+}}', '', html_content)
+		html_content = re.sub(r'{{+.+:+}}', '', html_content)
 		#Place the content in the template
 		full_content = before_content + html_content + after_content
 		with open(output_path, 'w') as output_file:
