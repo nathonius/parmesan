@@ -35,6 +35,7 @@ class ParmParser:
 
 	def touch_file(self, path):
 		"""Reads and re-writes the file to update its 'date modified' value"""
+		self.logger.log("Touching "+os.path.basename(path))
 		if not os.path.isfile(path):
 			return False
 		file_str = ""
