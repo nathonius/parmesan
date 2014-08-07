@@ -4,7 +4,7 @@ import os.path
 import subprocess
 import os
 import re
-from html import unescape
+from html import escape
 
 class ParmContentGenerator:
 	"""Process content and templates to generate the website"""
@@ -110,7 +110,9 @@ class ParmContentGenerator:
 			self.logger.log_error()
 			raise
 		#Strip parm-content block
-		html_content = re.sub(r'{{&#8220;.*&#8220;: &#8220;.*&#8220;}}', '', html_content)
+		pattern = r'{{".*": ".*"}}'
+		escape(pattern)
+		html_content = re.sub(pattern, '', html_content)
 		#Place the content in the template
 		full_content = before_content + html_content + after_content
 		with open(output_path, 'w') as output_file:
