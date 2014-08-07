@@ -112,6 +112,7 @@ class ParmContentGenerator:
 		#Strip parm-content block
 		pattern = r'{{".*": ".*"}}'
 		escape(pattern)
+		self.logger.log(pattern)
 		html_content = re.sub(pattern, '', html_content)
 		#Place the content in the template
 		full_content = before_content + html_content + after_content
