@@ -1,10 +1,10 @@
 from ParmOptions import ParmOptions
 from ParmLogger import ParmLogger
+from ParmContentRipper import ParmContentRipper
+import os
 import os.path
 import subprocess
-import os
 import re
-from html import escape
 
 class ParmContentGenerator:
 	"""Process content and templates to generate the website"""
@@ -13,8 +13,8 @@ class ParmContentGenerator:
 		self.logger = ParmLogger(verbose)
 
 	def get_content_info(self, content):
-		"""Parses the content file for the parm settings block"""
-		self.logger.log("\t\tSearching for parm settings block.")
+		"""Parses the content file for the parm settings blocks"""
+		self.logger.log("\t\tSearching for parm settings blocks.")
 		previous_line = ""
 		parm_data = {}
 		found_parm_data = False
@@ -28,7 +28,6 @@ class ParmContentGenerator:
 				value = data[1].strip()
 				parm_data[option] = value
 				found_parm_data = True
-				break
 			else:
 				previous_line = line
 		if not found_parm_data:
@@ -116,6 +115,25 @@ class ParmContentGenerator:
 		with open(output_path, 'w') as output_file:
 			output_file.write(full_content)
 		return True
+
+	def generate_web(self, parm_data):
+		"""Given dictionary of each section of content, runs markdown on each"""
+		self.logger.log("\t\tRunning parser.")
+		parser = self.options.parser
+		parse_syntax = self.options.parse_syntax.split()
+
+	def update_content(self, path):
+		"""Add or re-process modified content"""
+		filename = os.path.basename(path)
+		self.logger.log("\tGenerating content from " + str(filename) + "...")
+		ripper = ParmContentRipper(self.options.verbose)
+		parm_data = ripper.rip(path)
+		template = ""
+		if self.options.default_template:
+			template = self.options.default_template
+		if 'template' in parm_data.keys():
+			template = parm_data['template']
+		parsed_data = generate_web(parm_data)
 
 	def update_content(self, path):
 		"""Add or re-process modified content"""
