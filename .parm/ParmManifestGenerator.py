@@ -20,7 +20,7 @@ class ParmManifestGenerator:
 		filename = str(os.path.basename(path)).lower()
 		if(not os.path.isfile(path)):
 			return False
-		elif not filename.endswith(self.options.filename):
+		elif not filename.endswith(self.options.filetype):
 			return False
 		else:
 			return True
