@@ -13,6 +13,7 @@ class ParmContentGenerator:
 	def generate(self, paths):
 		"""Given list of file paths, runs markdown on each"""
 		self.logger.log("\tGenerating web content.")
+		generated_html = {}
 		for path in paths:
 			input_filename = os.path.basename(path)
 			output_filename = input_filename[:input_filename.rfind(".")]+".html"
@@ -20,5 +21,5 @@ class ParmContentGenerator:
 			output_path = os.path.join(output_path, output_filename)
 			self.logger.log("\t\tGenerating "+output_filename)
 			html_content = subprocess.check_output(["multimarkdown", path]).decode('utf-8')
-			with open(output_path, 'w') as output_file:
-				output_file.write(html_content)
+			generated_html[path] = html_content
+		return generated_html
