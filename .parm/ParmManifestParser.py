@@ -22,7 +22,7 @@ class ParmManifestParser:
 			for line in manifest:
 				path = line.split("|")[0]
 				#Find the changed files
-				if line.endswith("|CHANGED\n") or line.endswith("|ADDED\n"):
+				if line.strip().endswith("|CHANGED") or line.strip().endswith("|ADDED"):
 					content_files.append(path)
 		self.logger.log("Done.")
 		return content_files
