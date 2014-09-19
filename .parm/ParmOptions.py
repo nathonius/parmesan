@@ -1,4 +1,4 @@
-import ParmLogger
+from ParmLogger import ParmLogger
 import os.path
 import json
 
@@ -6,7 +6,7 @@ class ParmOptions:
 	"""Class wrapper for reading user.parm-settings and default.parm-settings, as well as verbosity"""
 	def __init__(self, verbose):
 		"""Read options files"""''
-		logger = ParmLogger.ParmLogger(verbose)
+		logger = ParmLogger(verbose)
 		#Set up the paths for the two options files
 		options_path = os.path.dirname(__file__)
 		user_options_path = os.path.join(options_path, 'user.parm-settings')
@@ -25,7 +25,7 @@ class ParmOptions:
 				with open(user_options_path, 'r') as user_options_file:
 					user = json.load(user_options_file)
 			except:
-				logger.log_error
+				logger.log_error()
 				raise
 		#Store as class variable
 		self.options = default

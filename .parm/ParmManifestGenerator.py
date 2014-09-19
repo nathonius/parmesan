@@ -1,26 +1,26 @@
 from os import walk
 import os.path
-import ParmLogger
+from ParmLogger import ParmLogger
+from ParmOptions import ParmOptions
 
-class ParmAnalyzer:
+class ParmManifestGenerator:
 	"""Walks through the directory tree, finding all the files to process"""
 	def __init__(self, verbose):
 		"""Set up the base path, ignore list, and logger"""
-		self.parm_root = os.path.abspath(__file__)
+		self.parm_root = os.path.dirname(__file__)
 		self.parm_root = os.path.dirname(self.parm_root)
-		self.parm_root = os.path.dirname(self.parm_root)
-		self.logger = ParmLogger.ParmLogger(verbose)
-		self.ignore = ('.py', '.pyc', '.parm-settings', '.html', '.htm', '.php', '.css', '.js', '.sublime-workspace')
+		self.logger = ParmLogger(verbose)
+		self.options = ParmOptions(verbose)
 		self.manifest_path = os.path.join(self.parm_root, '.parm')
 		self.manifest_path = os.path.join(self.manifest_path, 'manifest.parm-settings')
 		self.existing_manifest = []
 
 	def is_content(self, path):
 		"""Returns true if given file path is a content file"""
-		filename = str(os.path.basename(path))
+		filename = str(os.path.basename(path)).lower()
 		if(not os.path.isfile(path)):
 			return False
-		elif(str(filename).endswith(self.ignore) or filename == 'parm' or filename =='README.md'):
+		elif not filename.endswith(self.options.filename):
 			return False
 		else:
 			return True

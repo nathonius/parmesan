@@ -78,5 +78,5 @@ class ParmParser:
 						self.touch_file(path)
 						self.logger.log_error()
 						return False
-		self.logger.log("\tDone.")
+		self.logger.log("Done.")
 		return True

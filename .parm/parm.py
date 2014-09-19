@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 import argparse
-from ParmAnalyzer import ParmAnalyzer
-from ParmParser import ParmParser
+from ParmManifestGenerator import ParmManifestGenerator as generator
+from ParmManifestParser import ParmManifestParser as parser
 
-parser = argparse.ArgumentParser()
-parser.add_argument('-v', '--verbose', help='Make output verbose', action='store_true', default=False)
-args = parser.parse_args()
+argparser = argparse.ArgumentParser()
+argparser.add_argument('-v', '--verbose', help='Make output verbose', action='store_true', default=False)
+args = argparser.parse_args()
 
-parm_analyzer = ParmAnalyzer(args.verbose)
-parm_analyzer.update_manifest()
-parm_parser = ParmParser(args.verbose)
+parm_generator = generator(args.verbose)
+parm_generator.update_manifest()
+parm_parser = parser(args.verbose)
 parm_parser.parse_manifest()

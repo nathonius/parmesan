@@ -1,5 +1,6 @@
 from ParmOptions import ParmOptions
 from ParmLogger import ParmLogger
+from ParmContentRipper import ParmContentRipper
 import os
 import os.path
 import subprocess
@@ -100,19 +101,6 @@ class ParmContentGenerator:
 				html_content = subprocess.check_output(syntax).decode('utf-8')
 				parsed_ouput[piece] = html_content
 		return parsed_ouput
-
-	def touch_file(self, path):
-		"""Reads and re-writes the file to update its 'date modified' value"""
-		self.logger.log("\tTouching "+os.path.basename(path))
-		if not os.path.isfile(path):
-			self.logger.log("\t\tFile did not exist.")
-			return False
-		file_str = ""
-		with open(path, 'r') as f:
-			file_str = f.read()
-		with open(path, 'w') as f:
-			f.write(file_str)
-		return True
 
 	def update_content(self, path):
 		"""Add or re-process modified content"""
