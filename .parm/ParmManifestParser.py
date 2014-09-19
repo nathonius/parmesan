@@ -25,4 +25,4 @@ class ParmManifestParser:
 				if line.endswith("|CHANGED") or line.endswith("|ADDED"):
 					content_files.append(path)
 		self.logger.log("Done.")
-		return True
+		return content_files
