@@ -1,7 +1,5 @@
 from ParmOptions import ParmOptions
 from ParmLogger import ParmLogger
-import re
-import os.path
 
 class ParmTemplateParser:
 	"""Returns the generated html content spliced into the correct template"""
@@ -9,15 +7,17 @@ class ParmTemplateParser:
 		self.options = ParmOptions(verbose)
 		self.logger = ParmLogger(verbose)
 
-	def parse(self, template_path, html):
-		"""given a template path and some generated html, splices the html in"""
-		template_filename = os.path.basename(template_path)
-		self.logger.log("\tParsing template "+template_filename)
-		content = ""
-		with open(template_path, 'r') as template:
-			for line in template:
-				if not re.search(r'{!content-here!}'):
-					content += line
-				else:
-					content += html
-		return content
+	def find_template(self, html):
+		for line in html:
+			if "<!--{!template:" in line and "!}-->" in line:
+				template_line = line.split(':')[1]
+				template_line = template_line[:template_line.find("!}")]
+				template_line = template_line.strip()
+				return template_line
+		return False
+
+	def parse(self, html):
+		"""given some generated html, finds the correct template and splices the two"""
+		template = self.find_template(html)
+		if not template:
+			return False
