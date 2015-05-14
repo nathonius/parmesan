@@ -11,7 +11,6 @@ class ParmManifestGenerator:
 		self.parm_root = os.path.dirname(self.parm_root)
 		self.logger = ParmLogger(verbose)
 		self.options = ParmOptions(verbose)
-		self.options.filetype = ".mmd"
 		self.manifest_path = os.path.join(self.parm_root, '.parm')
 		self.manifest_path = os.path.join(self.manifest_path, 'manifest.parm-settings')
 		self.existing_manifest = []
