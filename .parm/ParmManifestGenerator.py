@@ -11,6 +11,7 @@ class ParmManifestGenerator:
 		self.parm_root = os.path.dirname(self.parm_root)
 		self.logger = ParmLogger(verbose)
 		self.options = ParmOptions(verbose)
+		self.options.filetype = ".mmd"
 		self.manifest_path = os.path.join(self.parm_root, '.parm')
 		self.manifest_path = os.path.join(self.manifest_path, 'manifest.parm-settings')
 		self.existing_manifest = []
@@ -20,7 +21,7 @@ class ParmManifestGenerator:
 		filename = str(os.path.basename(path)).lower()
 		if(not os.path.isfile(path)):
 			return False
-		elif not filename.endswith(self.options.filetype):
+		elif not filename.lower().endswith(self.options.filetype):
 			return False
 		else:
 			return True
