@@ -1,4 +1,5 @@
 import time
+import sys
 import os.path as path
 
 
@@ -29,6 +30,12 @@ class Logger:
         self.log_file.write(message)
         if self.verbose:
             print(message)
+
+    def log_error(self):
+        """Log the three pieces of an exception"""
+        error = sys.exc_info()
+        for i in error:
+            self.log(str(i))
 
     def get_log_path(self):
         """Determines the path to the current logfile"""

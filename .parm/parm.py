@@ -4,7 +4,6 @@ import json
 import os.path as path
 from Logger import Logger
 
-
 def main():
     arg_parser = argparse.ArgumentParser()
     # All arguments can be set in parm-settings.cfg, but these take priority
@@ -16,7 +15,6 @@ def main():
     # Create logger
     logger = Logger(parameters)
     # Read Manifest
-
 
 def get_parameters(cli_args):
     """cli_args is a Namespace object, so just a blank class. Running vars(args) returns a
@@ -41,7 +39,6 @@ def get_parameters(cli_args):
     # Add the base path of the .parm folder to the parameters, useful in many places
     parameters["parm_path"] = parm_path
     return parameters
-
 
 if __name__ == "__main__":
     main()
