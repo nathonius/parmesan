@@ -12,6 +12,7 @@ while (processed all files from root?) is (no)
 			if (file modified?) then (no)
 				:ignore file;
 			else (yes)
+			endif
 				:update manifest;
 				if (template specified in file?) then (yes)
 					:read specified template;
@@ -22,7 +23,6 @@ while (processed all files from root?) is (no)
 				:replace content block in template with new content;
 				:determine output file name from content file name and template type;
 				:write new file;
-			endif
 		endif
 	endif
 endwhile (yes)
