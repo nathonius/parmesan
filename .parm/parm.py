@@ -10,15 +10,16 @@ import re
 def main():
     arg_parser = argparse.ArgumentParser()
     # All arguments can be set in parm-settings.cfg, but these take priority
-    arg_parser.add_argument('path', help='Root path of the site. By default this is one directory above this file.',
-                            dest='root_path')
+    arg_parser.add_argument('root_path',
+                            help='Root path of the site. By default this is one directory above this file.',
+                            default=None)
     arg_parser.add_argument('-v', '--verbose', help='Make output verbose', dest='verbose', action='store_true',
                             default=False)
     arg_parser.add_argument('-p', '--parser', help='Select a different parser. Default is multimarkdown.',
-                            dest='parser')
+                            dest='parser', default=None)
     arg_parser.add_argument('-t', '--types',
                             help='File types to consider. Default is .mmd files. List as many as needed.',
-                            dest='file_types', nargs='*')
+                            dest='file_types', nargs='*', default=None)
     args = arg_parser.parse_args()
 
     # Read options and args into parameters
@@ -31,8 +32,9 @@ def main():
     modified = []
     for root, dirs, files in os.walk(parameters["root_path"]):
         # Skip hidden dirs
-        if path.basename(root).startswith("."):
-            continue
+        files = [f for f in files if not f[0] == '.']
+        dirs[:] = [d for d in dirs if not d[0] == '.']
+
         # Check each file
         for name in files:
             file_path = path.join(root, name)
@@ -67,6 +69,10 @@ def main():
 
     # Checked all files, write new manifest
     write_manifest(parameters, manifest)
+
+    # Clean up temp file
+    if path.isfile(parameters["temp_file_path"]):
+        os.remove(parameters["temp_file_path"])
 
     # Done, give some output.
     print("Done. Processed " + str(len(modified)) + " files.")
@@ -134,8 +140,11 @@ def parse(file_path, params):
                 raise FileNotFoundError("Could not locate template " + check_template)
 
     # Run parser
-    syntax = [params["parser"], markdown]
-    return subprocess.check_output(syntax), check_template
+    with open(params["temp_file_path"], 'w') as fp:
+        fp.write(markdown)
+    syntax = [params["parser"], params["temp_file_path"]]
+    content = str(subprocess.check_output(syntax).decode('utf-8'))
+    return content, check_template
 
 
 def get_parameters(cli_args):
@@ -158,10 +167,12 @@ def get_parameters(cli_args):
             raise ValueError("Could not decode parm-settings.cfg. Check json format.")
     # Overwrite any params present in both the config file and cli args
     for value in cli_args.keys():
-        parameters[value] = cli_args[value]
+        if cli_args[value]:
+            parameters[value] = cli_args[value]
     # Add the base path of the .parm folder to the parameters and path to site root, useful in many places
     parameters["parm_path"] = parm_path
-    if 'root_path' not in cli_args.keys():
+    parameters["temp_file_path"] = path.join(parameters["parm_path"], "temp.mmd")
+    if not cli_args["root_path"]:
         parameters["root_path"] = path.dirname(parm_path)
 
     return parameters
