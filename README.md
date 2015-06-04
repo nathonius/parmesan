@@ -3,8 +3,7 @@
 1. [About Parmesan](#about-parmesan)
 2. [Installation Instructions](#installation-instructions)
 3. [Configuration Instructions](#configuration-instructions)
-    1. [Default Options](#default-options)
-    2. [Additional Options](#additional-options)
+    1. [Configuration Settings](#configuration-settings)
     3. [Templates](#templates)
 4. [Usage Instructions](#usage-instructions)
     1. [Content Format](#content-format)
@@ -19,73 +18,41 @@ I tried [Jekyll](http://jekyllrb.com/) and I tried [MultiMarkdown-CMS](https://g
 Why 'Parmesan'? Because __P__ (ython) (MultiM) __ar__ (kdown) __m__ (anagement)... something. I just like the name.
 
 ##Installation Instructions
-Just clone Parmesan into the root of whatever portion of your website you want to manage. The .parm folder should be in the root directory.
+Just clone Parmesan into the root of whatever portion of your website you want to manage. The .parm folder should be in the root directory. Alternatively, you can set a root directory in the config file or at the command line.
 
 Requires python 3.2 or higher.
 
 ##Configuration Instructions
-The default settings file is `.parm/default.parm-settings`. If you need to override any of these settings, it is recommended that you create the file `.parm/user.parm-settings`, and add the options you would like to override.
-####Default Options
-These are the options in `default.parm-settings`, and what they mean.
+The settings file is `.parm/parm-settings.cfg`.
+
+####Configuration Settings
+These are the options that can be used in `parm-settings.cfg`, and what they mean. Most can be overridden at the command line.
 
 | Option | Values | Description |
 | --- | --- | --- |
+| verbose | true, false | By default parmesan gives very little output. Set to true for more. |
 | parser | multimarkdown, markdown, pandoc, etc. | The parser you want to use. Can be anything. (default: multimarkdown) |
-| parse_syntax | Example: `$file > $out` | The syntax for your chosen parser. `$file` and `$out`, the input file and the output file respectively, are required. Will be called as `<parser> <parse_syntax>` (default: multimarkdown syntax) |
-| generate_txt_version | true, false | If true, will generate .txt file versions of your markdown that can be viewed on the web. (default: false)|
-| include_html_in_txt | true, false | If true and `generate_txt_version` is true, the html template code will be included as well as the markdown text when creating the optional .txt files. (default: false) |
-| autoremove_generated_files | true, false | If true, if the content file is removed, the next time you run parmesan, any files generated from that content will be removed as well. (default: false) |
-
-####Additional Options
-These options can be added to `user.parm-settings`, but are not present in `default.parm-settings`.
-
-| Option | Values | Description |
-| --- | --- | --- |
-| default_template | `template.html` | Default template to use if none specified. Can be any template inside `.parm/templates` |
+| file_types | list of file types beginning with `.` | These are the types of files parmesan looks for when generating content. |
+| root_path | any path to your website | Sets the default directory for the website to process. |
+| default_template | the filename (not path) of the default template to use | Used when no template is specified in the content file. |
 
 ####Templates
-Templates are files stored in `.parm/templates`. The html generated from your content files is inserted into these where marked with `{!content-here!}` or `{!content-id: <id>!}` if you have more than one content section for a template. These can be named whatever you would like, but the file type must match the intended filetype (ie. html, htm, php). It would make sense to name these based on what they are used for: index.html, article.html, post.html, about.html, contact.html, etc.
+Templates are files stored in `.parm/templates`. The html generated from your content files is inserted into these where marked with `<parm></parm>` Templates can be named whatever you would like, but the file type must match the intended filetype (ie. html, htm, php). It would make sense to name these based on what they are used for: index.html, article.html, post.html, about.html, contact.html, etc.
 
 ##Usage Instructions
-Using parmesan is as easy as typing `./parm` in the top directory (the directory that contains `.parm`). There are also some additional flags and options you can specify as well.
+Using parmesan is as easy as typing `python parm.py <dir>` in the `.parm` directory. The `<dir>` argument can be omitted if `root_path` is specified in `parm-settings.cfg`. There are also some additional flags and options you can specify as well, all of which override the same setting in `parm-settings.cfg`.
 
 | Flag | Value | Description |
 | --- | --- | --- |
-| -v | N/A | Verbose mode. Essentially prints the log to the terminal. (default: off) |
+| -v or --verbose | N/A | Verbose mode. More output. |
+| -p or --parser | any installed parser that takes a file path as input and returns the output to the terminal | Used to specify which markup language parser to use. |
+| -t or --types | file types for parm to consider | Overrides setting in `parm-settings.cfg` |
 
 ####Content Format
-Parmesan looks for a certain format at the top of content files. This is not required if you have specified a default template. The format is a modified JSON syntax: `{!template: post.html!}`  
-
-You can also include an optional `{!content-id: content-id-value!}` block. If you have multiple sections of content to be placed in different locations in the template file, this block specifies the correct location for the content.  
-
-These blocks of parmesan specific code can also show up again later in your content document if you have more than one place in your template to put content. For example:
-```
-{!template: post.html!}
-{!content-id: post-header!}
-
-<CONTENT>
-
-{!content-id: post-body!}
-
-<CONTENT>
-
-{!content-id: post-summary!}
-
-<CONTENT>
-```
-
-Then if the content-id is specified in the given template, the content following the content-id declaration will be appropriately placed. Note that if you have a content-id block in your content file but there is no matching content-id block in the template file, that portion of the content will be ignored.
-
-| Variable | Value | Description |
-| --- | --- | --- |
-| template | Any template in `.parm/templates` | Specifies the template to use. Only the first template declaration will be used. Further declarations are ignored. Required if a default template is not set. |
-| content-id | Any specified `{!content-id: <id>!}` section in a template file | Tells parmesan where in the template file to place your content. Not required if template only has `{!content-here!}`. |
-
-Note: If you want parmesan to ignore a block of parmesan syntax and include it in your content, place the following html comment just above the syntax block. 
-`<!--parmesan-ignore-->`
+Parmesan looks for a certain format at the top of content files. This is not required if you have specified a default template. The format is a custom XML tag: `<parm>template_name.html</parm>`  
 
 ####Template Format
-The parmesan syntax for templates is similar to the syntax for content. In your template add `{!content-here!}` where your content should be placed. Or, if you have more than one section, add `{!content-id: <id>!}`, where `<id>` is the same as specified in a content document.
+The parmesan syntax for templates is similar to the syntax for content. In your template add `<parm></parm>` where your content should be placed. Nothing is necessary between the tag, but both tags must be present (so an XML singleton `<parm/>` would not work).
 
 Otherwise, templates are just html/php files. They can include as much or as little frills as you want. CSS, javascript, everything should work as normal.  
 Warning: Do be careful about file paths. Don't make the javascript or css paths relative to the template file, but relative to where the content file is.
