@@ -172,7 +172,7 @@ def get_parameters(cli_args):
     # Add the base path of the .parm folder to the parameters and path to site root, useful in many places
     parameters["parm_path"] = parm_path
     parameters["temp_file_path"] = path.join(parameters["parm_path"], "temp.mmd")
-    if not cli_args["root_path"]:
+    if not cli_args["root_path"] and "root_path" not in parameters.keys():
         parameters["root_path"] = path.dirname(parm_path)
 
     return parameters
