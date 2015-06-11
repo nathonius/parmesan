@@ -20,6 +20,8 @@ def main():
     arg_parser.add_argument('-t', '--types',
                             help='File types to consider. Default is .mmd files. List as many as needed.',
                             dest='file_types', nargs='*', default=None)
+    arg_parser.add_argument('-f', '--force', help='Force recreating all files, even if they have not been modified.',
+                            action='store_true', dest='force', default=False)
     args = arg_parser.parse_args()
 
     # Read options and args into parameters
@@ -42,7 +44,8 @@ def main():
             if not is_content(file_path, parameters):
                 continue
             # Skip the file if it hasn't been modified since last look
-            if file_path in manifest.keys() and path.getmtime(file_path) == manifest[file_path]:
+            if file_path in manifest.keys() and path.getmtime(file_path) == manifest[file_path] and not parameters[
+                "force"]:
                 continue
 
             if parameters["verbose"]:
@@ -167,7 +170,7 @@ def get_parameters(cli_args):
             raise ValueError("Could not decode parm-settings.cfg. Check json format.")
     # Overwrite any params present in both the config file and cli args
     for value in cli_args.keys():
-        if cli_args[value]:
+        if not cli_args[value] is None:
             parameters[value] = cli_args[value]
     # Add the base path of the .parm folder to the parameters and path to site root, useful in many places
     parameters["parm_path"] = parm_path

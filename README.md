@@ -47,6 +47,7 @@ Using parmesan is as easy as typing `python parm.py <dir>` in the `.parm` direct
 | -v | --verbose | N/A | Verbose mode. More output. |
 | -p | --parser | any installed parser that takes a file path as input and returns the output to the terminal | Used to specify which markup language parser to use. |
 | -t | --types | file types for parm to consider | Overrides setting in `parm-settings.cfg` |
+| -f | --force | N/A | Force parsing of all content files, even if they haven't been modified. Useful if templates have changed. |
 
 ####Content Format
 Parmesan looks for a certain format at the top of content files. This is not required if you have specified a default template. The format is a custom XML tag: `<parm>template_name.html</parm>`  
